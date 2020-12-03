@@ -7,23 +7,41 @@ require "whisper/routes"
 module Whisper
   class Error < StandardError; end
 
-  # Config
-  CLI::UI::StdoutRouter.enable
+  class App
+    def initialize
+      self.run
+    end
+
+    def render_ui_main
+      # Config
+      CLI::UI::StdoutRouter.enable
+
+      # Data
+      message_box = []
+      current_typing = ""
+      # UI
+      local_ip = Utils::get_local_ip()
+      CLI::UI::Frame.open("Local IP:#{local_ip}") do
+        puts "inside frame 1"
+      end
+    end
 
 
-  # Data
-  message_box = []
-  current_typing = ""
-  # UI
-  local_ip = Utils::get_local_ip()
-  CLI::UI::Frame.open("Local IP:#{local_ip}") do
-    puts "inside frame 1"
-  end
+    def interactive_loop
+      while true
+        input = gets
+        routes(input)
+      end
+    end
 
-  CLI::UI::Frame.open('Frame 2') { puts "inside frame 2" }
+    def render
+      # todo
+    end
 
-  while true
-    input = gets
-    routes(input)
+    def run
+      self.render_ui_main
+      self.interactive_loop
+    end
+
   end
 end

@@ -4,4 +4,5 @@ source "https://gems.ruby-china.com"
 gemspec
 
 gem "rake", "~> 12.0"
-gem 'cli-ui', '~> 1.4'
+gem "cli-ui", "~> 1.4"
+gem "minitest", "~> 5.0"

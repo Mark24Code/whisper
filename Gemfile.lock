@@ -7,6 +7,7 @@ GEM
   remote: https://gems.ruby-china.com/
   specs:
     cli-ui (1.4.0)
+    minitest (5.14.2)
     rake (12.3.3)
 
 PLATFORMS
@@ -14,6 +15,7 @@ PLATFORMS
 
 DEPENDENCIES
   cli-ui (~> 1.4)
+  minitest (~> 5.0)
   rake (~> 12.0)
   whisper!
 
