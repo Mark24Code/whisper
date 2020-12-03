@@ -1,0 +1,21 @@
+PATH
+  remote: .
+  specs:
+    whisper (0.1.0)
+
+GEM
+  remote: https://gems.ruby-china.com/
+  specs:
+    cli-ui (1.4.0)
+    rake (12.3.3)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  cli-ui (~> 1.4)
+  rake (~> 12.0)
+  whisper!
+
+BUNDLED WITH
+   2.1.4
