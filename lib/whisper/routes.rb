@@ -1,6 +1,5 @@
 require "time"
 
-
 COMMAND_PATTERN = /^:([connect|message|exit])(.*?)/
 
 def get_meta_info(raw_string)
@@ -12,31 +11,3 @@ def get_meta_info(raw_string)
   return [timestamp, command, content]
 end
 
-def routes(line="")
-  if line.match? COMMAND_PATTERN
-    timeline = get_meta_info(line)
-
-    dispatcher(timeline)
-  else
-    msg = ":message #{line}"
-    routes(msg)
-  end
-end
-
-def dispatcher(timeline)
-  timestamp, command, content = timeline
-
-  case command
-    when ":exit"
-      puts "[global] See you later :)"
-
-      # Todo LifeCycle BeforeExit
-      exit
-    when ":message"
-      puts "message:",content, timestamp
-    when ":connect"
-      puts "connect",content
-    else
-      puts "[error]: no command"
-  end
-end
