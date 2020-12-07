@@ -1,7 +1,7 @@
 require "test_helper"
-require_relative "../lib/whisper/pub_sub"
+require_relative "../lib/whisper/core/pub_sub"
 
-include PubSub
+include Whisper::PubSub
 
 
 describe "Task Test" do
