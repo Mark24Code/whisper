@@ -4,7 +4,6 @@ require "net/http"
 require "uri"
 
 require_relative "../settings"
-require_relative "../instances"
 
 puts Whisper::Config
 
