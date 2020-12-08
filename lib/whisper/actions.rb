@@ -6,7 +6,16 @@ module Whisper
   class Action
     def initialize(store)
       @store = store
+      self.networker_run
     end  
+
+    def networker_run
+      puts "networker_run"
+      require_relative "./core/networker"
+      Thread.new do
+        NetWorker.run!
+      end
+    end
 
     def routes(line="")
       if line.match? COMMAND_PATTERN
@@ -39,6 +48,10 @@ module Whisper
         else
           puts "[error]: no command"
       end
+    end
+
+    def send(time)
+    
     end
   end
 end

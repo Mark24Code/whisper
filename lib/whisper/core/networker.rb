@@ -5,8 +5,6 @@ require "uri"
 
 require_relative "../settings"
 
-puts Whisper::Config
-
 class NetWorker < Sinatra::Base
   
   local_host = Whisper::Config[:host]

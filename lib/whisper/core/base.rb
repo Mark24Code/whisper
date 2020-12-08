@@ -52,16 +52,7 @@ module Whisper
       end
     end
 
-    def networker_run
-      puts "networker_run"
-      require_relative "./networker"
-      Thread.new do
-        NetWorker.run!
-      end
-    end
-
     def run
-      self.networker_run
       self.main_loop
     end
   end
