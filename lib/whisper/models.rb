@@ -1,4 +1,4 @@
-require "whisper/core/framework"
+require_relative "./core/base"
 
 module Whisper
   class Store < Model

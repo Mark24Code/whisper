@@ -1,13 +1,17 @@
-require "whisper/core/framework"
+require "whisper/core/base"
 require "whisper/helpers"
 include Whisper::Helpers
 
 module Whisper
-
   class Controller
-    def initialize(models)
-      @models = models
+    def initialize(store)
+      @store = store
+      @app = nil
     end  
+
+    def install(app_instance)
+      @app = app_instance
+    end
 
     def routes(line="")
       if line.match? COMMAND_PATTERN
@@ -31,10 +35,10 @@ module Whisper
           exit
         when ":message"
           # Todo 封装成独立的数据结构
-          if @models[:timelines].length >= 10
-            @models[:timelines].shift
+          if @store[:timelines].length >= 10
+            @store[:timelines].shift
           end
-          @models[:timelines].push(timeline)
+          @store[:timelines].push(timeline)
         when ":connect"
           puts "connect",content
         else

@@ -7,11 +7,12 @@
 * eventloop
 * MVC Design  make like mvvm auto render
 * ui work as pure component like function
-
+* networker
 
 ## todo
 
 * middle ware
+  * piplines
 * event binding
 * config
 * task queue

@@ -1,4 +1,4 @@
-require "whisper/core/framework"
+require "whisper/core/base"
 require "tty-box"
 
 module Whisper

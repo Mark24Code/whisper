@@ -1,23 +1,16 @@
-require "whisper/core/framework"
+require "whisper/core/base"
 require "whisper/version"
-require "whisper/core/pub_sub"
 
-require "whisper/models"
 require "whisper/layout"
-require "whisper/controllers"
+require "whisper/instances"
 
 module Whisper
-  class App
+  class App < Base
     def initialize
-      @models = Store.new.data
-      @views = Layout.new(@models)
-      @controllers = Controller.new(@models)
-
-      @app = Framework.new(@models,@views,@controllers)
-    end  
-
-    def run 
-      @app.run
+      super
+      @store = Whisper::StoreInstance
+      @layout = Layout.new(@store)
+      @action = Whisper::ActionInstance
     end
   end
 end

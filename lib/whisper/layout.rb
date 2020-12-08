@@ -1,17 +1,17 @@
-require "whisper/core/framework"
+require "whisper/core/base"
 
 require "whisper/widgets/helloword"
 require "whisper/widgets/main_window"
 
 module Whisper
-  class Layout < ContainerComponent
-    def initialize(model)
-      @model = model
+  class Layout < Component
+    def initialize(props)
+      @props = props
     end 
   
     def render
-      hello = @model[:test_content]
-      timelines = @model[:timelines]
+      hello = @props[:test_content]
+      timelines = @props[:timelines]
       return [
         HelloWorld.new.render(hello),
         MainWindow.new(timelines).render,
