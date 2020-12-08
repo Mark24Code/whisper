@@ -23,23 +23,13 @@ class NetWorker < Sinatra::Base
     'Welcome Whisper'
   end
 
-  get '/timeline/receive' do
+  post '/timeline/receive' do
     timeline = params[:timeline]
     puts 'POST'
     puts timeline
     # @action.routes(timeline)
     # @app.rerender
 
-    "receive success"
-  end
-
-  post '/timeline/send' do
-    # bring data to send
-    url_string = "http://#{target_host}:#{target_port}/timeline/receive"
-    puts url_string
-    uri = URI.parse(url_string)
-    puts uri
-    response = Net::HTTP.post_form(uri, {"timeline" => "My Inner Net Test"})
     "receive success"
   end
 

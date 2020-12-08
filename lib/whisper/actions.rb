@@ -1,6 +1,12 @@
 require "whisper/core/base"
+require "net/http"
+require "uri"
+require "socket"
 require "whisper/helpers"
 include Whisper::Helpers
+
+require_relative "./settings"
+
 
 module Whisper
   class Action
@@ -43,6 +49,7 @@ module Whisper
             @store.timelines.shift
           end
           @store.timelines.push(timeline)
+          self.send(timeline)
         when ":connect"
           puts "connect",content
         else
@@ -50,7 +57,18 @@ module Whisper
       end
     end
 
-    def send(time)
+    def send(data)
+      target_host = Whisper::Config[:target_host]
+      target_port = Whisper::Config[:target_port]
+
+      url_string = "http://#{target_host}:#{target_port}/timeline/receive"
+      puts url_string
+      uri = URI.parse(url_string)
+      puts uri
+      response = Net::HTTP.post_form(uri, {"timeline" => data})
+    end
+
+    def listen
     
     end
   end
