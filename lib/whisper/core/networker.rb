@@ -8,8 +8,8 @@ require_relative "../settings"
 
 class NetWorker < Sinatra::Base
   
-  local_host = Whisper.config[:host]
-  local_port = Whisper.config[:port]
+  local_host = Whisper::Config[:host]
+  local_port = Whisper::Config[:port]
 
   @@store = nil
 
@@ -36,15 +36,14 @@ class NetWorker < Sinatra::Base
 
     timeline = params[:timeline]
     timeline = JSON.parse(timeline)
-    @@store.db.transaction do 
-      timelines = @@store.db[:timelines]
-      if timelines.length >= 20
-        timelines.shift
-      end
 
-      timelines.push timeline
-      @@store.db[:timelines] = timelines
+    timelines = @@store.get(:timelines)
+    if timelines.length >= 20
+      timelines.shift
     end
+
+    timelines.push timeline
+    @@store.set(:timelines, timelines)
     "receive success"
   end
 

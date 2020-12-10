@@ -14,6 +14,10 @@ module Whisper
     DB[:test_content] = "Hello World"
   end
 
+  DB.transaction do 
+    DB[:target_ip] = nil
+    DB[:target_port] = nil
+  end
 
  
   class Store < Model

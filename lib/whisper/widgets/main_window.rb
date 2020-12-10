@@ -19,7 +19,7 @@ module Whisper
       timelines_text = ""
       
       @timelines.each do |timeline|
-        timelines_text = timelines_text+"#{Time.at(timeline.first).strftime("%Y-%m-%d %H:%M:%S") } #{timeline.last}\n"
+        timelines_text = timelines_text+"#{timeline.last == @local_ip ? 'Me:': 'Friend:'} #{Time.at(timeline.first).strftime("%Y-%m-%d %H:%M:%S") } #{timeline[2]}\n"
       end
 
       return TTY::Box.frame(
