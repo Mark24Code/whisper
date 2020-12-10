@@ -1,21 +1,44 @@
+require "pstore"
 require_relative "./core/base"
 
 module Whisper
-  class Store < Model
-    attr_accessor :app
-    attr_reader :timelines, :test_content
 
-    # 以后只能整体赋值，以触发自动更新
-    # TODO 最后使用 setter_missing 使用自动触发
+  DB = PStore.new("localstorage.db")
+
+  # db init table
+  DB.transaction do 
+    DB[:timelines] ||= Array.new
+  end
+
+  DB.transaction do 
+    DB[:test_content] = "Hello World"
+  end
+
+
+ 
+  class Store < Model
+    attr_reader :app, :db
+
     def initialize(app)
       @app = app
-      @timelines = []
-      @test_content = "Hello World"
+      @db = DB
     end
 
-    def timelines=(new_val)
-      @timelines = new_val
+    def set(key,val)
+      @db.transaction do
+        @db[key] = val
+      end
+
       @app.render
+      return val
+    end
+
+    def get(key) 
+      val = nil
+      @db.transaction do 
+        val = @db[key]
+      end
+      return val
     end
   end
 end

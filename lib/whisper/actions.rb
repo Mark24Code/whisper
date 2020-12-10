@@ -3,6 +3,7 @@ require "net/http"
 require "uri"
 require "socket"
 require "whisper/helpers"
+require "json"
 include Whisper::Helpers
 
 require_relative "./settings"
@@ -18,6 +19,9 @@ module Whisper
     def networker_run
       puts "networker_run"
       require_relative "./core/networker"
+
+      NetWorker.store = @store
+
       Thread.new do
         NetWorker.run!
       end
@@ -44,14 +48,19 @@ module Whisper
           # Todo LifeCycle BeforeExit
           exit
         when ":message"
-          # Todo 封装成独立的数据结构
-          if @store.timelines.length >= 10
-            @store.timelines.shift
+          # TODO 效率低
+          timelines = @store.get(:timelines)
+
+          if timelines.length > 20
+            timelines.shift
           end
-          @store.timelines.push(timeline)
+          timelines.push(timeline)
+
+          @store.set(:timelines, timelines)
           self.send(timeline)
         when ":connect"
           puts "connect",content
+          
         else
           puts "[error]: no command"
       end
@@ -62,14 +71,8 @@ module Whisper
       target_port = Whisper::Config[:target_port]
 
       url_string = "http://#{target_host}:#{target_port}/timeline/receive"
-      puts url_string
       uri = URI.parse(url_string)
-      puts uri
-      response = Net::HTTP.post_form(uri, {"timeline" => data})
-    end
-
-    def listen
-    
+      response = Net::HTTP.post_form(uri, {"timeline" => JSON.dump(data)})
     end
   end
 end

@@ -28,7 +28,7 @@ module Whisper
     end  
 
     def render
-      system("clear")
+      # system("clear")
 
       materials = @layout.render
       if materials.kind_of? Array

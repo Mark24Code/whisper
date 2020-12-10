@@ -6,14 +6,14 @@ require "whisper/widgets/main_window"
 module Whisper
   class Layout < Component
     def initialize(store)
-      @props = store
+      @store = store
     end 
   
     def render
-      hello = @props.test_content
-      timelines = @props.timelines
+      timelines = @store.get(:timelines)
+      test_content = @store.get(:test_content)
       return [
-        HelloWorld.new.render(hello),
+        HelloWorld.new.render(test_content),
         MainWindow.new(timelines).render,
       ]
     end

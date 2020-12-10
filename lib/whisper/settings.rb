@@ -1,5 +1,5 @@
 module Whisper
-  Config = {
+  self.config = {
     :host=> "0.0.0.0",
     :port=> 5050,
     :target_host => "127.0.0.1",
