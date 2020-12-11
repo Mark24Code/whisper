@@ -26,6 +26,7 @@ class NetWorker < Sinatra::Base
     set :bind, local_host
     set :port, local_port
     set :logging, false
+    set :quiet, true
   end
 
   # routes
@@ -34,7 +35,6 @@ class NetWorker < Sinatra::Base
   end
 
   post '/timeline/receive' do
-
     timeline = params[:timeline]
     timeline = JSON.parse(timeline)
 
