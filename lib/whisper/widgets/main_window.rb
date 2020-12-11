@@ -10,16 +10,15 @@ module Whisper
   
     def initialize(timelines)
       @timelines = timelines
-      @local_ip = get_local_ip
+      @local_host = get_local_ip
       @version = Whisper::VERSION
     end
 
-    
     def render
       timelines_text = ""
       
       @timelines.each do |timeline|
-        timelines_text = timelines_text+"#{timeline.last == @local_ip ? 'Me:': 'Friend:'} #{Time.at(timeline.first).strftime("%Y-%m-%d %H:%M:%S") } #{timeline[2]}\n"
+        timelines_text = timelines_text+"#{timeline.last == @local_host ? 'Me:': 'Friend:'} #{Time.at(timeline.first).strftime("%Y-%m-%d %H:%M:%S") } #{timeline[2]}\n"
       end
 
       return TTY::Box.frame(

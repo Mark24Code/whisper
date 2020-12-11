@@ -2,13 +2,11 @@ require "whisper/core/base"
 require "net/http"
 require "uri"
 require "socket"
+require_relative "./settings"
 require_relative "./store"
 require "whisper/helpers"
 require "json"
 include Whisper::Helpers
-
-require_relative "./settings"
-
 
 module Whisper
   class Action
@@ -47,6 +45,9 @@ module Whisper
           puts "[global] See you later :)"
     
           # Todo LifeCycle BeforeExit
+
+          # $PWD是 根目录
+          system "rm ./#{Whisper::Config[:local_db_name]}"
           exit
         when ":message"
           # TODO 效率低
@@ -60,11 +61,11 @@ module Whisper
           @store.set(:timelines, timelines)
           self.send(timeline)
         when ":connect"
-          target_ip,target_port = content.split(":")
-          target_ip.strip!
+          target_host,target_port = content.split(":")
+          target_host.strip!
           target_port.strip!
 
-          @store.set(:target_ip, target_ip != ''? target_ip: nil)
+          @store.set(:target_host, target_host != ''? target_host: nil)
           @store.set(:target_port, target_port != '' ? target_port: nil)
           puts "connect:",content
         else
@@ -73,15 +74,15 @@ module Whisper
     end
 
     def send(data)
-      target_ip = @store.get(:target_ip)
+      target_host = @store.get(:target_host)
       target_port = @store.get(:target_port) ||  Whisper::Config[:target_port]
 
-      if !target_ip
+      if !target_host
         puts "You need input `:connect <target ip>` first"
         return
       end
   
-      url_string = "http://#{target_ip}:#{target_port}/timeline/receive"
+      url_string = "http://#{target_host}:#{target_port}/timeline/receive"
       uri = URI.parse(url_string)
       response = Net::HTTP.post_form(uri, {"timeline" => JSON.dump(data)})
     end

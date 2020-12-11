@@ -25,6 +25,7 @@ class NetWorker < Sinatra::Base
   configure do
     set :bind, local_host
     set :port, local_port
+    set :logging, false
   end
 
   # routes

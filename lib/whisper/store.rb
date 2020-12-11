@@ -1,9 +1,15 @@
 require "pstore"
 require_relative "./core/base"
-
+require_relative "./settings"
 module Whisper
 
-  DB = PStore.new("localstorage.db")
+  DB = PStore.new(Whisper::Config[:local_db_name])
+
+  # config table
+  DB.transaction do 
+    DB[:target_host] = nil
+    DB[:target_port] = nil
+  end
 
   # db init table
   DB.transaction do 
@@ -13,12 +19,6 @@ module Whisper
   DB.transaction do 
     DB[:test_content] = "Hello World"
   end
-
-  DB.transaction do 
-    DB[:target_ip] = nil
-    DB[:target_port] = nil
-  end
-
  
   class Store < Model
     attr_reader :app, :db
